@@ -1,6 +1,6 @@
 # AWS Lambda Terraform Module
 
-[![Build Status](https://travis-ci.org/mergermarket/tf_aws_lambda.svg?branch=master)](https://travis-ci.org/mergermarket/tf_aws_lambda)
+[![Build Status](https://travis-ci.org/mergermarket/terraform-acuris-aws-lambda.svg?branch=master)](https://travis-ci.org/mergermarket/terraform-acuris-aws-lambda)
 
 This module will deploy a Lambda function.
 
@@ -23,7 +23,8 @@ This module will deploy a Lambda function.
 
 ```hcl
 module "lambda" {
-  source                    = "github.com/mergermarket/tf_aws_lambda"
+  source  = "mergermarket/aws-lambda/acuris"
+  version = "0.0.1"
   s3_bucket                 = "s3_bucket_name"
   s3_key                    = "s3_key_for_lambda"
   function_name             = "do_foo"
