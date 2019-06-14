@@ -68,3 +68,8 @@ variable "lambda_env" {
   type        = "map"
   default     = {}
 }
+
+variable "log_subscription_filter" {
+  description = "Subscription filter to filter logs sent to datadog"
+  default     = ""
+}

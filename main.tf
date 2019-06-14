@@ -29,6 +29,6 @@ resource "aws_cloudwatch_log_subscription_filter" "kinesis_log_stream" {
   name            = "kinesis-log-stream-${var.function_name}"
   destination_arn = "${var.datadog_log_subscription_arn}"
   log_group_name  = "${aws_cloudwatch_log_group.lambda_loggroup.name}"
-  filter_pattern  = ""
+  filter_pattern  = "${var.log_subscription_filter}"
   depends_on      = ["aws_lambda_function.lambda_function"]
 }
