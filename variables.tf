@@ -73,3 +73,8 @@ variable "log_subscription_filter" {
   description = "Subscription filter to filter logs sent to datadog"
   default     = ""
 }
+
+variable "reserved_concurrent_executions" {
+  description = "Reserved concurrent executions for this Lambda"
+  default     = -1
+}
