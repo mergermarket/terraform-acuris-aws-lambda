@@ -18,6 +18,7 @@ This module will deploy a Lambda function.
 - `security_group_ids` - (string) - **REQUIRED** The VPC security groups assigned to the Lambda.
 - `subnet_ids` - (string) - **REQUIRED** The VPC subnets in which the Lambda runs.
 - `timeout` (number) - The maximum time in seconds that the Lambda can run for
+- `reserved_concurrent_executions` (number) - The amount of reserved concurrent executions for this lambda function.
 
 
 ## Usage

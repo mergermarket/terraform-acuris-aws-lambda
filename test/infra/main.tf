@@ -1,4 +1,5 @@
 provider "aws" {
+  version                     = ">= 2.15"
   skip_credentials_validation = true
   skip_metadata_api_check     = true
   skip_get_ec2_platforms      = true
@@ -11,15 +12,16 @@ provider "aws" {
 }
 
 module "lambda" {
-  source                 = "../.."
-  s3_bucket              = "cdflow-lambda-releases"
-  s3_key                 = "s3key.zip"
-  function_name          = "check_lambda_function"
-  handler                = "some_handler"
-  runtime                = "python"
-  lambda_env             = "${var.lambda_env}"
-  subnet_ids             = "${var.subnet_ids}"
-  security_group_ids     = "${var.security_group_ids}"
+  source                          = "../.."
+  s3_bucket                       = "cdflow-lambda-releases"
+  s3_key                          = "s3key.zip"
+  function_name                   = "check_lambda_function"
+  handler                         = "some_handler"
+  runtime                         = "python3.7"
+  lambda_env                      = "${var.lambda_env}"
+  subnet_ids                      = "${var.subnet_ids}"
+  security_group_ids              = "${var.security_group_ids}"
+  reserved_concurrent_executions  = "${var.reserved_concurrent_executions}"
 }
 
 variable "subnet_ids" {
@@ -38,6 +40,11 @@ variable "lambda_env" {
   description = "Environment parameters passed to the Lambda function."
   type        = "map"
   default     = {}
+}
+
+variable "reserved_concurrent_executions" {
+  description = "Reserved concurrent executions for this Lambda"
+  default     = -1
 }
 
 output "lambda_function_arn" {
