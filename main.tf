@@ -8,6 +8,7 @@ resource "aws_lambda_function" "lambda_function" {
   timeout                         = "${var.timeout}"
   memory_size                     = "${var.memory_size}"
   reserved_concurrent_executions  = "${var.reserved_concurrent_executions}"
+  tags                            = "${var.tags}"
 
   vpc_config {
       subnet_ids         = "${var.subnet_ids}"
