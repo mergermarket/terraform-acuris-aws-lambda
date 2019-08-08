@@ -78,3 +78,9 @@ variable "reserved_concurrent_executions" {
   description = "Reserved concurrent executions for this Lambda"
   default     = -1
 }
+
+variable "tags" {
+  description = "A mapping of tags to assign to this lambda function."
+  type        = "map"
+  default     = {}
+}

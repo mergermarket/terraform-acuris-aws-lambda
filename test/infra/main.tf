@@ -22,6 +22,7 @@ module "lambda" {
   subnet_ids                      = "${var.subnet_ids}"
   security_group_ids              = "${var.security_group_ids}"
   reserved_concurrent_executions  = "${var.reserved_concurrent_executions}"
+  tags                            = "${var.tags}"
 }
 
 variable "subnet_ids" {
@@ -45,6 +46,12 @@ variable "lambda_env" {
 variable "reserved_concurrent_executions" {
   description = "Reserved concurrent executions for this Lambda"
   default     = -1
+}
+
+variable "tags" {
+  description = "A mapping of tags to assign to this lambda function."
+  type        = "map"
+  default     = {}
 }
 
 output "lambda_function_arn" {
