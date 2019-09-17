@@ -21,11 +21,13 @@ variable "runtime" {
 variable "subnet_ids" {
   type        = "list"
   description = "The VPC subnets in which the Lambda runs."
+  default     = []
 }
 
 variable "security_group_ids" {
   type        = "list"
   description = "The VPC security groups assigned to the Lambda."
+  default     = []
 }
 
 // Optional Variables
