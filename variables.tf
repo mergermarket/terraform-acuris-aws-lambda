@@ -19,13 +19,13 @@ variable "runtime" {
 }
 
 variable "subnet_ids" {
-  type        = "list"
+  type        = list(string)
   description = "The VPC subnets in which the Lambda runs."
   default     = []
 }
 
 variable "security_group_ids" {
-  type        = "list"
+  type        = list(string)
   description = "The VPC security groups assigned to the Lambda."
   default     = []
 }
@@ -38,7 +38,7 @@ variable "datadog_log_subscription_arn" {
 
 variable "lambda_role_policy" {
   description = "The Lambda IAM Role Policy."
-  default = <<END
+  default     = <<END
 {
   "Statement": [
     {
@@ -53,6 +53,7 @@ variable "lambda_role_policy" {
   ]
 }
 END
+
 }
 
 variable "timeout" {
@@ -67,7 +68,7 @@ variable "memory_size" {
 
 variable "lambda_env" {
   description = "Environment parameters passed to the Lambda function."
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
 
@@ -83,6 +84,6 @@ variable "reserved_concurrent_executions" {
 
 variable "tags" {
   description = "A mapping of tags to assign to this lambda function."
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
