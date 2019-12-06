@@ -14,4 +14,3 @@ RUN apk add -U ca-certificates curl && \
 
 RUN pip install --no-cache-dir -r requirements.txt
 ADD infra /infra
-
