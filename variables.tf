@@ -30,7 +30,6 @@ variable "security_group_ids" {
   default     = []
 }
 
-// Optional Variables
 variable "datadog_log_subscription_arn" {
   description = "Log subscription arn for shipping logs to datadog"
   default     = ""
