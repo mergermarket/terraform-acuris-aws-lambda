@@ -1,3 +1,7 @@
+terraform {
+  required_version = ">= 0.12"
+}
+
 provider "aws" {
   version                     = ">= 2.15"
   skip_credentials_validation = true
@@ -12,34 +16,34 @@ provider "aws" {
 }
 
 module "lambda" {
-  source                          = "../.."
-  s3_bucket                       = "cdflow-lambda-releases"
-  s3_key                          = "s3key.zip"
-  function_name                   = "check_lambda_function"
-  handler                         = "some_handler"
-  runtime                         = "python3.7"
-  lambda_env                      = "${var.lambda_env}"
-  subnet_ids                      = "${var.subnet_ids}"
-  security_group_ids              = "${var.security_group_ids}"
-  reserved_concurrent_executions  = "${var.reserved_concurrent_executions}"
-  tags                            = "${var.tags}"
+  source                         = "../.."
+  s3_bucket                      = "cdflow-lambda-releases"
+  s3_key                         = "s3key.zip"
+  function_name                  = "check_lambda_function"
+  handler                        = "some_handler"
+  runtime                        = "python3.7"
+  lambda_env                     = var.lambda_env
+  subnet_ids                     = var.subnet_ids
+  security_group_ids             = var.security_group_ids
+  reserved_concurrent_executions = var.reserved_concurrent_executions
+  tags                           = var.tags
 }
 
 variable "subnet_ids" {
-  type        = "list"
+  type        = list(string)
   description = "The VPC subnets in which the Lambda runs."
   default     = []
 }
 
 variable "security_group_ids" {
-  type        = "list"
+  type        = list(string)
   description = "The VPC security groups assigned to the Lambda."
   default     = []
 }
 
 variable "lambda_env" {
   description = "Environment parameters passed to the Lambda function."
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
 
@@ -50,10 +54,10 @@ variable "reserved_concurrent_executions" {
 
 variable "tags" {
   description = "A mapping of tags to assign to this lambda function."
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
 
 output "lambda_function_arn" {
-  value = "${module.lambda.lambda_arn}"
+  value = module.lambda.lambda_arn
 }
