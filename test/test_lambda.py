@@ -10,11 +10,8 @@ cwd = os.getcwd()
 class TestCreateTaskdef(unittest.TestCase):
 
     def setUp(self):
-        check_call([
-            'terraform',
-            'get',
-            'test/infra'
-        ])
+        check_call(['terraform', 'get', 'test/infra'])
+        check_call(['terraform', 'init', 'test/infra'])
 
     def get_output_json(self):
         return json.loads(check_output([
