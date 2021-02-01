@@ -2,6 +2,16 @@ terraform {
   required_version = ">= 0.12"
 }
 
+locals {
+  default_lambda_sg = "${var.lambda_env}-default-lambda-sg"
+  security_group_ids = var.security_group_ids != [] ? var.security_group_ids : [data.aws_security_group.default-lambda-sg.Id]
+}
+
+data "aws_security_group" "default-lambda-sg" {
+  name = locals.default_lambda_sg
+}
+
+
 resource "aws_lambda_function" "lambda_function" {
   s3_bucket                      = var.s3_bucket
   s3_key                         = var.s3_key
@@ -16,7 +26,7 @@ resource "aws_lambda_function" "lambda_function" {
 
   vpc_config {
     subnet_ids         = var.subnet_ids
-    security_group_ids = var.security_group_ids
+    security_group_ids = locals.security_group_ids
   }
 
   environment {
