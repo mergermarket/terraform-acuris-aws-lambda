@@ -1,9 +1,16 @@
+variable "image_uri" {
+  description = "Optional ECR image (for image based lambda)"
+  default     = ""
+}
+
 variable "s3_bucket" {
   description = "The name of the bucket containing your uploaded Lambda deployment package."
+  default     = ""
 }
 
 variable "s3_key" {
   description = "The s3 key for your Lambda deployment package."
+  default     = ""
 }
 
 variable "function_name" {

@@ -3,8 +3,9 @@ terraform {
 }
 
 resource "aws_lambda_function" "lambda_function" {
-  s3_bucket                      = var.s3_bucket
-  s3_key                         = var.s3_key
+  image_uri                      = var.image_uri != "" ? var.image_uri : null
+  s3_bucket                      = var.s3_bucket != "" ? var.s3_bucket : null
+  s3_key                         = var.s3_key != "" ? var.s3_key : null
   function_name                  = var.function_name
   role                           = aws_iam_role.iam_for_lambda.arn
   handler                        = var.handler
