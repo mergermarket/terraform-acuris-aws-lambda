@@ -55,6 +55,24 @@ class TestCreateTaskdef(unittest.TestCase):
         self.assert_resource_changes_action(resource_changes, 'create', 4)
         self.assert_resource_changes('create_lambda', resource_changes)
 
+    def test_all_resources_to_be_created_for_container_lambda(self):
+        # Given When
+        check_call([
+            'terraform',
+            'plan',
+            '-out=plan.out',
+            '-no-color',
+            'test/infra_container'
+        ])
+
+        resource_changes = self.get_resource_changes()
+
+        # Then
+        assert len(resource_changes) == 4
+        self.assert_resource_changes_action(resource_changes, 'create', 4)
+        self.assert_resource_changes('create_lambda_container', resource_changes)
+
+
     def test_create_lambda_in_vpc(self):
         # Given When
         check_call([
