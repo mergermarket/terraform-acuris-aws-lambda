@@ -14,6 +14,7 @@ resource "aws_lambda_function" "lambda_function" {
   memory_size                    = var.memory_size
   reserved_concurrent_executions = var.reserved_concurrent_executions
   tags                           = var.tags
+  package_type                   = var.image_uri != "" ? "Image" : "Zip"
 
   vpc_config {
     subnet_ids         = var.subnet_ids
