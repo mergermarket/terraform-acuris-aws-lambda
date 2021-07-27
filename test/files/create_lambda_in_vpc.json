@@ -51,6 +51,8 @@
                     "arn": true,
                     "create_date": true,
                     "id": true,
+                    "inline_policy": true,
+                    "managed_policy_arns": true,
                     "name": true,
                     "unique_id": true
                 }
@@ -114,6 +116,7 @@
                 ],
                 "before": null,
                 "after": {
+                    "code_signing_config_arn": null,
                     "dead_letter_config": [],
                     "description": null,
                     "environment": [
@@ -121,12 +124,16 @@
                             "variables": null
                         }
                     ],
+                    "file_system_config": [],
                     "filename": null,
                     "function_name": "check_lambda_function",
                     "handler": "some_handler",
+                    "image_config": [],
+                    "image_uri": null,
                     "kms_key_arn": null,
                     "layers": null,
                     "memory_size": 128,
+                    "package_type": "Zip",
                     "publish": false,
                     "reserved_concurrent_executions": -1,
                     "runtime": "python3.7",
@@ -155,11 +162,15 @@
                     "environment": [
                         {}
                     ],
+                    "file_system_config": [],
                     "id": true,
+                    "image_config": [],
                     "invoke_arn": true,
                     "last_modified": true,
                     "qualified_arn": true,
                     "role": true,
+                    "signing_job_arn": true,
+                    "signing_profile_version_arn": true,
                     "source_code_hash": true,
                     "source_code_size": true,
                     "tracing_config": true,
