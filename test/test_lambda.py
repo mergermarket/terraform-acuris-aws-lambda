@@ -133,3 +133,25 @@ class TestCreateTaskdef(unittest.TestCase):
             'create_lambda_with_tags',
             resource_changes
         )
+
+    def test_create_lambda_with_layers(self):
+        # Given When
+        check_call([
+            'terraform',
+            'plan',
+            '-out=plan.out',
+            '-var', 'layers=["arn:aws:lambda:eu-west-1:aws:r1"]',
+            '-no-color',
+            'test/infra'
+        ])
+
+        resource_changes = self.get_resource_changes()
+
+        # Then
+        assert len(resource_changes) == 4
+        self.assert_resource_changes_action(resource_changes, 'create', 4)
+        self.assert_resource_changes(
+            'create_lambda_with_layers',
+            resource_changes
+        )    
+

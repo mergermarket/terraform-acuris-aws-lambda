@@ -27,6 +27,7 @@ module "lambda" {
   security_group_ids             = var.security_group_ids
   reserved_concurrent_executions = var.reserved_concurrent_executions
   tags                           = var.tags
+  layers                         = var.layers
 }
 
 variable "subnet_ids" {
@@ -56,6 +57,12 @@ variable "tags" {
   description = "A mapping of tags to assign to this lambda function."
   type        = map(string)
   default     = {}
+}
+
+variable "layers" {
+  type        = list(string)
+  description = "ARNs of the layers to attach to the lambda function in order"
+  default     = []
 }
 
 output "lambda_function_arn" {
