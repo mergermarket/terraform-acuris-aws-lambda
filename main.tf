@@ -15,6 +15,7 @@ resource "aws_lambda_function" "lambda_function" {
   reserved_concurrent_executions = var.reserved_concurrent_executions
   tags                           = var.tags
   package_type                   = var.image_uri != "" ? "Image" : "Zip"
+  layers                         = var.layers
 
   vpc_config {
     subnet_ids         = var.subnet_ids
