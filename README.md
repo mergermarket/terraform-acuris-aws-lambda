@@ -1,6 +1,6 @@
 # AWS Lambda Terraform Module
 
-[![Build Status](https://travis-ci.org/mergermarket/terraform-acuris-aws-lambda.svg?branch=master)](https://travis-ci.org/mergermarket/terraform-acuris-aws-lambda)
+[![Test](https://github.com/mergermarket/terraform-acuris-aws-lambda/actions/workflows/test.yml/badge.svg)](https://github.com/mergermarket/terraform-acuris-aws-lambda/actions/workflows/test.yml)
 
 This module will deploy a Lambda function.
 
