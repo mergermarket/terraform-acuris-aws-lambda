@@ -18,9 +18,9 @@ provider "aws" {
 module "lambda" {
   source                         = "../.."
   image_uri                      = "image"
+  image_config_command           = ["some_cmd"]
+  image_config_entry_point       = ["some_entrypoint"]
   function_name                  = "check_lambda_function"
-  handler                        = "unused"
-  runtime                        = "provided"
 }
 
 output "lambda_function_arn" {
