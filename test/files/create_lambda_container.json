@@ -1,5 +1,5 @@
 {
-    "resource_changes": [{
+	"resource_changes": [{
             "address": "module.lambda.aws_cloudwatch_log_group.lambda_loggroup",
             "module_address": "module.lambda",
             "mode": "managed",
@@ -101,7 +101,7 @@
                     ],
                     "image_uri": "image",
                     "kms_key_arn": null,
-                    "layers": null,
+                    "layers": [],
                     "memory_size": 128,
                     "package_type": "Image",
                     "publish": false,
@@ -133,6 +133,7 @@
                     ],
                     "invoke_arn": true,
                     "last_modified": true,
+                    "layers": [],
                     "qualified_arn": true,
                     "role": true,
                     "signing_job_arn": true,
