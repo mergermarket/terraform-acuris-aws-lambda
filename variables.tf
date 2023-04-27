@@ -129,5 +129,5 @@ variable "tags" {
 variable "layers" {
   type        = list(string)
   description = "ARNs of the layers to attach to the lambda function in order"
-  default     = null
+  default     = []
 }
