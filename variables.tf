@@ -7,13 +7,13 @@ variable "image_uri" {
 variable "image_config_command" {
   type        = list(string)
   description = "Optional override of image's CMD"
-  default     = null
+  default     = []
 }
 
 variable "image_config_entry_point" {
   type        = list(string)
   description = "Optional override of image's ENTRYPOINT"
-  default     = null
+  default     = []
 }
 
 variable "image_config_working_directory" {
