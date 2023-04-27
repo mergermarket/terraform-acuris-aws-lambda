@@ -1,7 +1,7 @@
 variable "image_uri" {
   type        = string
   description = "Optional ECR image (for image based lambda)"
-  default     = ""
+  default     = null
 }
 
 variable "image_config_command" {
