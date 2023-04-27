@@ -1,6 +1,5 @@
 {
-    "resource_changes": [
-        {
+    "resource_changes": [{
             "address": "module.lambda.aws_cloudwatch_log_group.lambda_loggroup",
             "module_address": "module.lambda",
             "mode": "managed",
@@ -8,9 +7,7 @@
             "name": "lambda_loggroup",
             "provider_name": "aws",
             "change": {
-                "actions": [
-                    "create"
-                ],
+                "actions": ["create"],
                 "before": null,
                 "after": {
                     "kms_key_id": null,
@@ -24,8 +21,7 @@
                     "id": true
                 }
             }
-        },
-        {
+        }, {
             "address": "module.lambda.aws_iam_role.iam_for_lambda",
             "module_address": "module.lambda",
             "mode": "managed",
@@ -33,9 +29,7 @@
             "name": "iam_for_lambda",
             "provider_name": "aws",
             "change": {
-                "actions": [
-                    "create"
-                ],
+                "actions": ["create"],
                 "before": null,
                 "after": {
                     "assume_role_policy": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"lambda.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\"\n    }\n  ]\n}\n",
@@ -57,8 +51,7 @@
                     "unique_id": true
                 }
             }
-        },
-        {
+        }, {
             "address": "module.lambda.aws_iam_role_policy.lambda_policy",
             "module_address": "module.lambda",
             "mode": "managed",
@@ -66,9 +59,7 @@
             "name": "lambda_policy",
             "provider_name": "aws",
             "change": {
-                "actions": [
-                    "create"
-                ],
+                "actions": ["create"],
                 "before": null,
                 "after": {
                     "name": "policy",
@@ -80,8 +71,7 @@
                     "role": true
                 }
             }
-        },
-        {
+        }, {
             "address": "module.lambda.aws_lambda_function.lambda_function",
             "module_address": "module.lambda",
             "mode": "managed",
@@ -89,40 +79,41 @@
             "name": "lambda_function",
             "provider_name": "aws",
             "change": {
-                "actions": [
-                    "create"
-                ],
+                "actions": ["create"],
                 "before": null,
                 "after": {
                     "code_signing_config_arn": null,
                     "dead_letter_config": [],
                     "description": null,
-                    "environment": [
-                        {
+                    "environment": [{
                             "variables": null
                         }
                     ],
                     "file_system_config": [],
                     "filename": null,
                     "function_name": "check_lambda_function",
-                    "handler": "unused",
-                    "image_config": [],
+                    "handler": null,
+                    "image_config": [{
+                            "command": ["some_cmd"],
+                            "entry_point": ["some_entrypoint"],
+                            "working_directory": null
+                        }
+                    ],
                     "image_uri": "image",
                     "kms_key_arn": null,
-                    "layers": [],
+                    "layers": null,
                     "memory_size": 128,
                     "package_type": "Image",
                     "publish": false,
                     "reserved_concurrent_executions": -1,
-                    "runtime": "provided",
+                    "runtime": null,
                     "s3_bucket": null,
                     "s3_key": null,
                     "s3_object_version": null,
                     "tags": null,
                     "timeout": 3,
                     "timeouts": null,
-                    "vpc_config": [
-                        {
+                    "vpc_config": [{
                             "security_group_ids": null,
                             "subnet_ids": null
                         }
@@ -131,15 +122,17 @@
                 "after_unknown": {
                     "arn": true,
                     "dead_letter_config": [],
-                    "environment": [
-                        {}
+                    "environment": [{}
                     ],
                     "file_system_config": [],
                     "id": true,
-                    "image_config": [],
+                    "image_config": [{
+                            "command": [false],
+                            "entry_point": [false]
+                        }
+                    ],
                     "invoke_arn": true,
                     "last_modified": true,
-                    "layers": [],
                     "qualified_arn": true,
                     "role": true,
                     "signing_job_arn": true,
@@ -148,8 +141,7 @@
                     "source_code_size": true,
                     "tracing_config": true,
                     "version": true,
-                    "vpc_config": [
-                        {
+                    "vpc_config": [{
                             "vpc_id": true
                         }
                     ]
