@@ -3,7 +3,7 @@ terraform {
 }
 
 resource "aws_lambda_function" "lambda_function" {
-  image_uri                       = var.image_uri != "" ? var.image_uri : null
+  image_uri                       = var.image_uri
   s3_bucket                       = var.s3_bucket
   s3_key                          = var.s3_key
   function_name                   = var.function_name
@@ -14,11 +14,11 @@ resource "aws_lambda_function" "lambda_function" {
   memory_size                     = var.memory_size
   reserved_concurrent_executions  = var.reserved_concurrent_executions
   tags                            = var.tags
-  package_type                    = var.image_uri != "" ? "Image" : "Zip"
+  package_type                    = var.image_uri != null ? "Image" : "Zip"
   layers                          = var.layers
 
   dynamic "image_config" {
-    for_each = var.image_uri != "" ? [1] : []
+    for_each = var.image_uri != null ? [1] : []
     content  {
         command = var.image_config_command
         entry_point = var.image_config_entry_point

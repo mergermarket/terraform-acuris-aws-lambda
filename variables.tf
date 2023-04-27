@@ -1,19 +1,19 @@
 variable "image_uri" {
   type        = string
   description = "Optional ECR image (for image based lambda)"
-  default     = ""
+  default     = null
 }
 
 variable "image_config_command" {
   type        = list(string)
   description = "Optional override of image's CMD"
-  default     = null
+  default     = []
 }
 
 variable "image_config_entry_point" {
   type        = list(string)
   description = "Optional override of image's ENTRYPOINT"
-  default     = null
+  default     = []
 }
 
 variable "image_config_working_directory" {
@@ -129,5 +129,5 @@ variable "tags" {
 variable "layers" {
   type        = list(string)
   description = "ARNs of the layers to attach to the lambda function in order"
-  default     = null
+  default     = []
 }
