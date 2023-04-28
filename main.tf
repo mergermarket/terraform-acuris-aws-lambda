@@ -2,6 +2,16 @@ terraform {
   required_version = ">= 0.12"
 }
 
+locals {
+  default_lambda_sg = "${terraform.workspace}-default-lambda-sg"
+  security_group_ids = var.security_group_ids != [] ? var.security_group_ids : [data.aws_security_group.default-lambda-sg.id]
+}
+
+data "aws_security_group" "default-lambda-sg" {
+  name = local.default_lambda_sg
+}
+
+
 resource "aws_lambda_function" "lambda_function" {
   image_uri                       = var.image_uri
   s3_bucket                       = var.s3_bucket
@@ -28,7 +38,7 @@ resource "aws_lambda_function" "lambda_function" {
 
   vpc_config {
     subnet_ids         = var.subnet_ids
-    security_group_ids = var.security_group_ids
+    security_group_ids = local.security_group_ids
   }
 
   environment {
