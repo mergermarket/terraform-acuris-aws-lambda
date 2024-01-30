@@ -50,3 +50,25 @@ resource "aws_cloudwatch_log_subscription_filter" "kinesis_log_stream" {
   filter_pattern  = var.log_subscription_filter
   depends_on      = [aws_lambda_function.lambda_function]
 }
+
+resource "aws_cloudwatch_event_rule" "cron_schedule" {
+  count               = var.lambda_cron_schedule != "" ? 1 : 0
+  name                = replace("${var.function_name}-cron_schedule", "/(.{0,64}).*/", "$1")
+  description         = "Schedule for ${var.function_name}"
+  schedule_expression = var.lambda_cron_schedule
+}
+
+resource "aws_cloudwatch_event_target" "event_target" {
+  count      = var.lambda_cron_schedule != "" ? 1 : 0
+  rule       = aws_cloudwatch_event_rule.cron_schedule[0].name
+  arn        = aws_lambda_function.lambda_function.arn
+}
+
+resource "aws_lambda_permission" "allow_cloudwatch" {
+  count         = var.lambda_cron_schedule != "" ? 1 : 0
+  statement_id  = "AllowExecutionFromCloudWatch"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda_function.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.cron_schedule[0].arn
+}

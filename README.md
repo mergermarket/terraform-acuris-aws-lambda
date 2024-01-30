@@ -21,6 +21,7 @@ This module will deploy a Lambda function. It supports both Zip and Image deploy
 - `reserved_concurrent_executions` (number) - The amount of reserved concurrent executions for this lambda function.
 - `tags` (map) - A mapping of tags to assign to this lambda function.
 - `datadog_log_subscription_arn` - (string) - Log subscription arn for shipping logs to datadog.
+- `lambda_cron_schedule` - (string) - Cron expression to execute the lambda. ex rate(5 minute) or  cron(0 5 * * ? *)
 
 ### Zip deployment variables
 - `runtime` - (string) - **REQUIRED** - The runtime environment for the Lambda function you are uploading.

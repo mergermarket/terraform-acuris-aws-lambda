@@ -131,3 +131,9 @@ variable "layers" {
   description = "ARNs of the layers to attach to the lambda function in order"
   default     = []
 }
+
+variable "lambda_cron_schedule" {
+  type = string
+  description = "value of cron expression for scheduled lambda"
+  default = ""
+}

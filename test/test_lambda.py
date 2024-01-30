@@ -1,6 +1,7 @@
 import json
 import os
 import unittest
+import deepdiff
 
 from subprocess import check_call, check_output
 
@@ -36,7 +37,7 @@ class TestCreateTaskdef(unittest.TestCase):
         with open(f'test/files/{testname}.json', 'r') as f:
             data = json.load(f)
 
-            assert data.get('resource_changes') == resource_changes
+            assert  deepdiff.diff.DeepDiff(data.get('resource_changes'), resource_changes) == {}
 
     def test_all_resources_to_be_created(self):
         # Given When
@@ -49,6 +50,7 @@ class TestCreateTaskdef(unittest.TestCase):
         ])
 
         resource_changes = self.get_resource_changes()
+        print(resource_changes)
 
         # Then
         assert len(resource_changes) == 4
