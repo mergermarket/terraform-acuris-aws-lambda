@@ -51,8 +51,6 @@
                     "arn": true,
                     "create_date": true,
                     "id": true,
-                    "inline_policy": true,
-                    "managed_policy_arns": true,
                     "name": true,
                     "unique_id": true
                 }
