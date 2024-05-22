@@ -137,3 +137,8 @@ variable "lambda_cron_schedule" {
   description = "value of cron expression for scheduled lambda"
   default = ""
 }
+variable "architectures" {
+  type = list(string)
+  description = "The architectures supported by the Lambda function."
+  default = ["x86_64"]
+}
