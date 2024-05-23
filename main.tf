@@ -1,7 +1,3 @@
-terraform {
-  required_version = ">= 0.12"
-}
-
 resource "aws_lambda_function" "lambda_function" {
   image_uri                       = var.image_uri
   s3_bucket                       = var.s3_bucket
@@ -16,6 +12,7 @@ resource "aws_lambda_function" "lambda_function" {
   tags                            = var.tags
   package_type                    = var.image_uri != null ? "Image" : "Zip"
   layers                          = var.layers
+  architectures                   = var.architectures
 
   dynamic "image_config" {
     for_each = var.image_uri != null ? [1] : []

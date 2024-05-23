@@ -131,3 +131,9 @@ variable "layers" {
   description = "ARNs of the layers to attach to the lambda function in order"
   default     = []
 }
+
+variable "architectures" {
+  type        = list(string)
+  description = "Lambda architectures to support."
+  default     = ["x86_64"]
+}
