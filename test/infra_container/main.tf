@@ -1,12 +1,7 @@
-terraform {
-  required_version = ">= 0.12"
-}
-
 provider "aws" {
-  version                     = ">= 2.15"
+  version = "3.61.0"
   skip_credentials_validation = true
   skip_metadata_api_check     = true
-  skip_get_ec2_platforms      = true
   skip_region_validation      = true
   skip_requesting_account_id  = true
   max_retries                 = 1

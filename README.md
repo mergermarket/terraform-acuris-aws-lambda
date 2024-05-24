@@ -21,6 +21,7 @@ This module will deploy a Lambda function. It supports both Zip and Image deploy
 - `reserved_concurrent_executions` (number) - The amount of reserved concurrent executions for this lambda function.
 - `tags` (map) - A mapping of tags to assign to this lambda function.
 - `datadog_log_subscription_arn` - (string) - Log subscription arn for shipping logs to datadog.
+- `architectures` - (list) - List of architectures to support for the Lambda function.
 
 ### Zip deployment variables
 - `runtime` - (string) - **REQUIRED** - The runtime environment for the Lambda function you are uploading.
@@ -50,6 +51,7 @@ module "lambda" {
   timeout       = 5
   memory_size   = 256
   lambda_env    = "${var.lambda_env}"
+  architectures = ["x86_64"]
 }
 ```
 Lambda environment variables file:
