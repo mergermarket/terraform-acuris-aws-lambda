@@ -1,7 +1,6 @@
 import json
 import os
 import unittest
-
 from subprocess import check_call, check_output
 
 cwd = os.getcwd()
@@ -36,7 +35,7 @@ class TestCreateTaskdef(unittest.TestCase):
         with open(f'test/files/{testname}.json', 'r') as f:
             data = json.load(f)
 
-            assert data.get('resource_changes') == resource_changes
+            assert data == resource_changes
 
     def test_all_resources_to_be_created(self):
         # Given When
@@ -104,7 +103,6 @@ class TestCreateTaskdef(unittest.TestCase):
         ])
 
         resource_changes = self.get_resource_changes()
-
         # Then
         assert len(resource_changes) == 4
         self.assert_resource_changes_action(resource_changes, 'create', 4)
