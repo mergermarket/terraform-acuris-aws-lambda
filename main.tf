@@ -1,3 +1,13 @@
+locals {
+  security_group_ids = var.security_group_ids != null ? var.security_group_ids : [aws_security_group.default[0].id]
+}
+
+data "aws_security_group" "default" {
+  count = var.security_group_ids != null ? 0 : 1
+  name = "${terraform.workspace}-default-lambda-sg"
+}
+
+
 resource "aws_lambda_function" "lambda_function" {
   image_uri                       = var.image_uri
   s3_bucket                       = var.s3_bucket
@@ -25,7 +35,7 @@ resource "aws_lambda_function" "lambda_function" {
 
   vpc_config {
     subnet_ids         = var.subnet_ids
-    security_group_ids = var.security_group_ids
+    security_group_ids = local.security_group_ids
   }
 
   environment {

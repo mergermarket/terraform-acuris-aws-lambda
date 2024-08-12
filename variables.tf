@@ -60,7 +60,7 @@ variable "subnet_ids" {
 variable "security_group_ids" {
   type        = list(string)
   description = "The VPC security groups assigned to the Lambda."
-  default     = []
+  default     = null
 }
 
 variable "datadog_log_subscription_arn" {
