@@ -138,7 +138,7 @@ variable "architectures" {
   default     = ["x86_64"]
 }
 
-variable "use_default_sg" {
+variable "use_default_security_group" {
   type        = bool
   description = "Use default security group"
   default     = false
