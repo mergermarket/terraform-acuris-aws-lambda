@@ -34,9 +34,12 @@ resource "aws_lambda_function" "lambda_function" {
     }
   }
 
-  vpc_config {
-    subnet_ids         = var.subnet_ids
-    security_group_ids = local.security_group_ids
+   dynamic vpc_config {
+    for_each = local.security_group_ids != null ? [1] : [] 
+      content {
+        subnet_ids = var.subnet_ids
+        security_group_ids = local.security_group_ids
+      }
   }
 
   environment {
