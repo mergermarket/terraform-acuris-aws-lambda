@@ -3,7 +3,7 @@ locals {
 }
 
 data "aws_security_group" "default" {
-  count = var.security_group_ids != null ? 0 : 1
+  count = var.use_default_sg == true ? 1 : 0
   name = "${terraform.workspace}-default-lambda-sg"
 }
 

@@ -137,3 +137,9 @@ variable "architectures" {
   description = "Lambda architectures to support."
   default     = ["x86_64"]
 }
+
+variable "use_default_sg" {
+  type        = bool
+  description = "Use default security group"
+  default     = false
+}
