@@ -110,7 +110,7 @@
         "tags": null,
         "timeout": 3,
         "timeouts": null,
-        "vpc_config": [{ "security_group_ids": null, "subnet_ids": null }]
+        "vpc_config": []
       },
       "after_unknown": {
         "architectures": [false],
@@ -132,7 +132,7 @@
         "tags_all": true,
         "tracing_config": true,
         "version": true,
-        "vpc_config": [{ "vpc_id": true }]
+        "vpc_config": []
       }
     }
   }
