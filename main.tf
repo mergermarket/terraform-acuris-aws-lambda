@@ -1,3 +1,14 @@
+locals {
+  security_group_ids = var.use_default_security_group == false ? var.security_group_ids : [data.aws_security_group.default[0].id]
+}
+
+data "aws_security_group" "default" {
+  count = var.use_default_security_group == true ? 1 : 0
+  name = "${terraform.workspace}-default-lambda-sg"
+  vpc_id = var.vpc_id
+}
+
+
 resource "aws_lambda_function" "lambda_function" {
   image_uri                       = var.image_uri
   s3_bucket                       = var.s3_bucket
@@ -23,9 +34,12 @@ resource "aws_lambda_function" "lambda_function" {
     }
   }
 
-  vpc_config {
-    subnet_ids         = var.subnet_ids
-    security_group_ids = var.security_group_ids
+   dynamic vpc_config {
+    for_each = local.security_group_ids != null ? [1] : [] 
+      content {
+        subnet_ids = var.subnet_ids
+        security_group_ids = local.security_group_ids
+      }
   }
 
   environment {

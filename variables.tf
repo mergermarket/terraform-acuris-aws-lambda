@@ -60,7 +60,7 @@ variable "subnet_ids" {
 variable "security_group_ids" {
   type        = list(string)
   description = "The VPC security groups assigned to the Lambda."
-  default     = []
+  default     = null
 }
 
 variable "datadog_log_subscription_arn" {
@@ -136,4 +136,16 @@ variable "architectures" {
   type        = list(string)
   description = "Lambda architectures to support."
   default     = ["x86_64"]
+}
+
+variable "use_default_security_group" {
+  type        = bool
+  description = "Use default security group"
+  default     = false
+}
+
+variable "vpc_id" {
+  type        = string
+  description = "The VPC ID in which the Lambda runs."
+  default = null
 }
