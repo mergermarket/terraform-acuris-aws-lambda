@@ -12,11 +12,17 @@
       "after": {
         "kms_key_id": null,
         "name": "/aws/lambda/check_lambda_function",
-        "name_prefix": null,
         "retention_in_days": 7,
+        "skip_destroy": false,
         "tags": null
       },
-      "after_unknown": { "arn": true, "id": true, "tags_all": true }
+      "after_unknown": {
+        "arn": true,
+        "id": true,
+        "log_group_class": true,
+        "name_prefix": true,
+        "tags_all": true
+      }
     }
   },
   {
@@ -30,7 +36,7 @@
       "actions": ["create"],
       "before": null,
       "after": {
-        "assume_role_policy": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"lambda.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\"\n    }\n  ]\n}\n",
+        "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"lambda.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
         "description": null,
         "force_detach_policies": false,
         "max_session_duration": 3600,
@@ -63,10 +69,13 @@
       "before": null,
       "after": {
         "name": "policy",
-        "name_prefix": null,
-        "policy": "{\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"logs:CreateLogGroup\",\n        \"logs:CreateLogStream\",\n        \"logs:PutLogEvents\"\n      ],\n      \"Resource\": \"arn:aws:logs:*:*:*\"\n    }\n  ]\n}\n"
+        "policy": "{\"Statement\":[{\"Action\":[\"logs:CreateLogGroup\",\"logs:CreateLogStream\",\"logs:PutLogEvents\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:logs:*:*:*\"}]}"
       },
-      "after_unknown": { "id": true, "role": true }
+      "after_unknown": {
+        "id": true,
+        "name_prefix": true,
+        "role": true
+      }
     }
   },
   {
@@ -84,7 +93,7 @@
         "code_signing_config_arn": null,
         "dead_letter_config": [],
         "description": null,
-        "environment": [{ "variables": null }],
+        "environment": [],
         "file_system_config": [],
         "filename": null,
         "function_name": "check_lambda_function",
@@ -102,11 +111,15 @@
         "memory_size": 128,
         "package_type": "Image",
         "publish": false,
+        "replace_security_groups_on_destroy": null,
+        "replacement_security_group_ids": null,
         "reserved_concurrent_executions": -1,
         "runtime": null,
         "s3_bucket": null,
         "s3_key": null,
         "s3_object_version": null,
+        "skip_destroy": false,
+        "snap_start": [],
         "tags": null,
         "timeout": 3,
         "timeouts": null,
@@ -115,18 +128,28 @@
       "after_unknown": {
         "architectures": [false],
         "arn": true,
+        "code_sha256": true,
         "dead_letter_config": [],
-        "environment": [{}],
+        "environment": [],
+        "ephemeral_storage": true,
         "file_system_config": [],
         "id": true,
-        "image_config": [{ "command": [false], "entry_point": [false] }],
+        "image_config": [
+          {
+            "command": [false],
+            "entry_point": [false]
+          }
+        ],
         "invoke_arn": true,
         "last_modified": true,
         "layers": [],
+        "logging_config": true,
         "qualified_arn": true,
+        "qualified_invoke_arn": true,
         "role": true,
         "signing_job_arn": true,
         "signing_profile_version_arn": true,
+        "snap_start": [],
         "source_code_hash": true,
         "source_code_size": true,
         "tags_all": true,

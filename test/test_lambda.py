@@ -22,7 +22,9 @@ class TestCreateTaskdef(unittest.TestCase):
 
     def get_resource_changes(self):
         output = self.get_output_json()
-        return output.get('resource_changes')
+        r = output.get('resource_changes')
+        print(json.dumps(r, indent=2))
+        return r
 
     def assert_resource_changes_action(self, resource_changes, action, length):
         resource_changes_create = [
