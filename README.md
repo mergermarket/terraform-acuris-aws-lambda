@@ -22,6 +22,8 @@ This module will deploy a Lambda function. It supports both Zip and Image deploy
 - `tags` (map) - A mapping of tags to assign to this lambda function.
 - `datadog_log_subscription_arn` - (string) - Log subscription arn for shipping logs to datadog.
 - `architectures` - (list) - List of architectures to support for the Lambda function.
+- `use_default_security_group` - (bool) - Use the default security group for the Lambda function.
+- `vpc_id` - (string) - The VPC ID in which the Lambda runs.
 
 ### Zip deployment variables
 - `runtime` - (string) - **REQUIRED** - The runtime environment for the Lambda function you are uploading.
@@ -52,6 +54,8 @@ module "lambda" {
   memory_size   = 256
   lambda_env    = "${var.lambda_env}"
   architectures = ["x86_64"]
+  use_default_security_group = true
+  vpc_id = module.platform_config.config["vpc"]
 }
 ```
 Lambda environment variables file:
