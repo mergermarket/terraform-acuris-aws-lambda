@@ -149,3 +149,9 @@ variable "vpc_id" {
   description = "The VPC ID in which the Lambda runs."
   default = null
 }
+
+variable "tracing_mode" {
+  type        = string
+  description = "Tracing mode for the Lambda. Valid options: PassThrough (default) and Active."
+  default = "PassThrough"
+}
