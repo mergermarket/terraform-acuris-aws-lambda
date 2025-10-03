@@ -34,3 +34,9 @@ resource "aws_iam_role_policy_attachment" "vpc_permissions" {
 
   count = length(var.subnet_ids) != 0 ? 1 : 0
 }
+
+resource "aws_iam_role_policy_attachment" "service_roles" {
+  for_each   = var.service_roles
+  role       = aws_iam_role.iam_for_lambda.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/${each.value}"
+}

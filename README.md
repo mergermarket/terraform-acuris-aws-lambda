@@ -25,6 +25,7 @@ This module will deploy a Lambda function. It supports both Zip and Image deploy
 - `use_default_security_group` - (bool) - Use the default security group for the Lambda function.
 - `vpc_id` - (string) - The VPC ID in which the Lambda runs.
 - `tracing_mode` - (string) - Tracing mode for the Lambda. Valid options: PassThrough (default) and Active.
+- `service_roles` - (set) - AWS-managed service roles to attach to Lambda (defaults to "AWSLambdaBasicExecutionRole")
 
 ### Zip deployment variables
 - `runtime` - (string) - **REQUIRED** - The runtime environment for the Lambda function you are uploading.
