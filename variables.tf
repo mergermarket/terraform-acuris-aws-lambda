@@ -155,3 +155,9 @@ variable "tracing_mode" {
   description = "Tracing mode for the Lambda. Valid options: PassThrough (default) and Active."
   default = "PassThrough"
 }
+
+variable "service_roles" {
+  type = set(string)
+  description = "Service roles to attach to lambda"
+  default = toset(["AWSLambdaBasicExecutionRole"])
+}
