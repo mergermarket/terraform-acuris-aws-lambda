@@ -10,12 +10,16 @@ locals {
     "nodejs20.x" = "arn:aws:lambda:eu-west-1:464622532012:layer:Datadog-Node20-x:${var.datadog_lambdajs_layer_version}"
     "nodejs22.x" = "arn:aws:lambda:eu-west-1:464622532012:layer:Datadog-Node22-x:${var.datadog_lambdajs_layer_version}"
   }
-  datadog_extension_layer = var.datadog_metrics == "none" ? [] : [local.datadog_extension_layers_available[var.architectures[0]]]
-  datadog_lambdajs_layer  = var.datadog_metrics == "lambdajs" ? [local.datadog_lambdajs_layers_available[var.runtime]] : []
-  datadog_lambdajs_env = var.datadog_metrics == "lambdajs" ? {
-    DD_LAMBDA_HANDLER     = var.handler
+  datadog_install_extension = var.datadog_metrics != "none"
+  datadog_install_lambdajs  = var.datadog_metrics == "lambdajs"
+  datadog_extension_layer   = local.datadog_install_extension ? [local.datadog_extension_layers_available[var.architectures[0]]] : []
+  datadog_extension_env = local.datadog_install_extension ? {
     DD_SITE               = "datadoghq.com"
     DD_API_KEY_SECRET_ARN = data.aws_secretsmanager_secret.datadog_api_key.arn
+  } : {}
+  datadog_lambdajs_layer = local.datadog_install_lambdajs ? [local.datadog_lambdajs_layers_available[var.runtime]] : []
+  datadog_lambdajs_env = local.datadog_install_lambdajs ? {
+    DD_LAMBDA_HANDLER = var.handler
   } : {}
 }
 
@@ -35,7 +39,7 @@ resource "aws_lambda_function" "lambda_function" {
   s3_key                         = var.s3_key
   function_name                  = var.function_name
   role                           = aws_iam_role.iam_for_lambda.arn
-  handler                        = var.datadog_metrics == "lambdajs" ? "/opt/nodejs/node_modules/datadog-lambda-js/handler.handler" : var.handler
+  handler                        = local.datadog_install_lambdajs ? "/opt/nodejs/node_modules/datadog-lambda-js/handler.handler" : var.handler
   runtime                        = var.runtime
   timeout                        = var.timeout
   memory_size                    = var.memory_size
@@ -63,7 +67,7 @@ resource "aws_lambda_function" "lambda_function" {
   }
 
   environment {
-    variables = merge(var.lambda_env, local.datadog_lambdajs_env)
+    variables = merge(var.lambda_env, local.datadog_extension_env, local.datadog_lambdajs_env)
   }
 
   tracing_config {

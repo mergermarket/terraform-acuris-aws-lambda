@@ -36,7 +36,7 @@ resource "aws_iam_role_policy_attachment" "vpc_permissions" {
 }
 
 resource "aws_iam_role_policy" "read_datadog_api_key" {
-  count = var.datadog_metrics == "lambdajs" ? 1 : 0
+  count = local.datadog_install_extension ? 1 : 0
   role = aws_iam_role.iam_for_lambda.id
   name = "read_datadog_api_key"
   policy = data.aws_iam_policy_document.read_datadog_api_key.json
