@@ -34,3 +34,22 @@ resource "aws_iam_role_policy_attachment" "vpc_permissions" {
 
   count = length(var.subnet_ids) != 0 ? 1 : 0
 }
+
+resource "aws_iam_role_policy" "read_datadog_api_key" {
+  count = var.datadog_metrics == "lambdajs" ? 1 : 0
+  role = aws_iam_role.iam_for_lambda.id
+  name = "read_datadog_api_key"
+  policy = data.aws_iam_policy_document.read_datadog_api_key.json
+}
+
+data "aws_iam_policy_document" "read_datadog_api_key" {
+  statement {
+    sid = "ReadSecrets"
+    actions = [
+      "secretsmanager:GetSecretValue"
+    ]
+    resources = [
+      data.aws_secretsmanager_secret.datadog_api_key.arn,
+    ]
+  }
+}
