@@ -2,13 +2,13 @@ locals {
   security_group_ids = var.use_default_security_group == false ? var.security_group_ids : [data.aws_security_group.default[0].id]
 
   datadog_extension_layers_available = {
-    x86_64 = "arn:aws:lambda:eu-west-1:464622532012:layer:Datadog-Extension:${var.datadog_extension_layer_version}"
-    arm64  = "arn:aws:lambda:eu-west-1:464622532012:layer:Datadog-Extension-ARM:${var.datadog_extension_layer_version}"
+    x86_64 = "arn:aws:lambda:${data.aws_region.current.region}:464622532012:layer:Datadog-Extension:${var.datadog_extension_layer_version}"
+    arm64  = "arn:aws:lambda:${data.aws_region.current.region}:464622532012:layer:Datadog-Extension-ARM:${var.datadog_extension_layer_version}"
   }
   datadog_lambdajs_layers_available = {
-    "nodejs18.x" = "arn:aws:lambda:eu-west-1:464622532012:layer:Datadog-Node18-x:${var.datadog_lambdajs_layer_version}"
-    "nodejs20.x" = "arn:aws:lambda:eu-west-1:464622532012:layer:Datadog-Node20-x:${var.datadog_lambdajs_layer_version}"
-    "nodejs22.x" = "arn:aws:lambda:eu-west-1:464622532012:layer:Datadog-Node22-x:${var.datadog_lambdajs_layer_version}"
+    "nodejs18.x" = "arn:aws:lambda:${data.aws_region.current.region}:464622532012:layer:Datadog-Node18-x:${var.datadog_lambdajs_layer_version}"
+    "nodejs20.x" = "arn:aws:lambda:${data.aws_region.current.region}:464622532012:layer:Datadog-Node20-x:${var.datadog_lambdajs_layer_version}"
+    "nodejs22.x" = "arn:aws:lambda:${data.aws_region.current.region}:464622532012:layer:Datadog-Node22-x:${var.datadog_lambdajs_layer_version}"
   }
   datadog_install_extension = var.datadog_metrics != "none"
   datadog_install_lambdajs  = var.datadog_metrics == "lambdajs"
@@ -21,6 +21,9 @@ locals {
   datadog_lambdajs_env = local.datadog_install_lambdajs ? {
     DD_LAMBDA_HANDLER = var.handler
   } : {}
+}
+
+data "aws_region" "current" {
 }
 
 data "aws_security_group" "default" {
