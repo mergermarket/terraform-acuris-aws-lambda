@@ -155,3 +155,21 @@ variable "tracing_mode" {
   description = "Tracing mode for the Lambda. Valid options: PassThrough (default) and Active."
   default = "PassThrough"
 }
+
+variable "datadog_extension_layer_version" {
+  type = number
+  description = "Version number of DataDog extension layer to add"
+  default = 88
+}
+
+variable "datadog_lambdajs_layer_version" {
+  type = number
+  description = "Version number of DataDog NodeJS lambda layer to add"
+  default = 130
+}
+
+variable "datadog_metrics" {
+  type = string
+  description = "Add DataDog metrics extension ('extension') and optional NodeJS handler wrapper ('lambdajs')"
+  default = "none"
+}
