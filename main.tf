@@ -77,6 +77,13 @@ resource "aws_lambda_function" "lambda_function" {
   tracing_config {
     mode = var.tracing_mode
   }
+
+  dynamic "dead_letter_config" {
+    for_each = var.dead_letter_queue_arn != "" ? [1] : []  
+    content {
+      target_arn = var.dead_letter_queue_arn
+    }
+  }
 }
 
 resource "aws_cloudwatch_log_group" "lambda_loggroup" {
