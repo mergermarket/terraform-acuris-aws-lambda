@@ -16,6 +16,12 @@ variable "image_config_entry_point" {
   default     = []
 }
 
+variable "dead_letter_queue_arn" {
+  type        = string
+  description = "The ARN of the dead letter queue for the Lambda function."
+  default     = ""  
+}
+
 variable "image_config_working_directory" {
   type        = string
   description = "Optional override of image's WORKDIR"

@@ -25,6 +25,7 @@ This module will deploy a Lambda function. It supports both Zip and Image deploy
 - `use_default_security_group` - (bool) - Use the default security group for the Lambda function.
 - `vpc_id` - (string) - The VPC ID in which the Lambda runs.
 - `tracing_mode` - (string) - Tracing mode for the Lambda. Valid options: PassThrough (default) and Active.
+- `dead_letter_queue_arn` - (string)- The ARN of the dead letter queue for the Lambda function.
 
 ### Zip deployment variables
 - `runtime` - (string) - **REQUIRED** - The runtime environment for the Lambda function you are uploading.
