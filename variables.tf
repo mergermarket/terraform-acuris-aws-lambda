@@ -179,3 +179,21 @@ variable "datadog_metrics" {
   description = "Add DataDog metrics extension ('extension') and optional NodeJS handler wrapper ('lambdajs')"
   default = "none"
 }
+
+variable "enable_otel_collector" {
+  type = bool
+  description = "Whether to add the OpenTelemetry Collector Lambda layer and related environment variables"
+  default = false
+}
+
+variable "otel_collector_layer_extension_log_level" {
+  type = string
+  description = "Log level for OpenTelemetry Collector Lambda layer extension"
+  default = "error"
+}
+
+variable "otel_datadog_log_subscription_arn_ssm_parameter_name" {
+  type = string
+  description = "The name of the SSM parameter containing the ARN of the Datadog log subscription for the OpenTelemetry Collector to send logs to"
+  default = "otel-datadog-log-subscription-role-arn"
+}
