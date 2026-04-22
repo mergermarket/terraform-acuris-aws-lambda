@@ -38,6 +38,7 @@ data "aws_security_group" "default" {
 }
 
 data "aws_secretsmanager_secret" "datadog_api_key" {
+  count = var.datadog_metrics != "none" ? 1 : 0
   name = "${terraform.workspace == "live" ? "live" : "dev"}/datadog-agent-service"
 }
 
