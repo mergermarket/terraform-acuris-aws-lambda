@@ -49,7 +49,7 @@ data "aws_iam_policy_document" "read_datadog_api_key" {
       "secretsmanager:GetSecretValue"
     ]
     resources = [
-      data.aws_secretsmanager_secret.datadog_api_key.arn,
+      tostring(try(data.aws_secretsmanager_secret.datadog_api_key[0].arn, "")),
     ]
   }
 }

@@ -16,7 +16,7 @@ locals {
   datadog_extension_layer   = local.datadog_install_extension ? [local.datadog_extension_layers_available[var.architectures[0]]] : []
   datadog_extension_env = local.datadog_install_extension ? {
     DD_SITE               = "datadoghq.com"
-    DD_API_KEY_SECRET_ARN = data.aws_secretsmanager_secret.datadog_api_key.arn
+    DD_API_KEY_SECRET_ARN = tostring(try(data.aws_secretsmanager_secret.datadog_api_key[0].arn, ""))
   } : {}
   datadog_lambdajs_layer = local.datadog_install_lambdajs ? [local.datadog_lambdajs_layers_available[var.runtime]] : []
   datadog_lambdajs_env = local.datadog_install_lambdajs ? {
@@ -39,6 +39,7 @@ data "aws_security_group" "default" {
 
 data "aws_secretsmanager_secret" "datadog_api_key" {
   count = var.datadog_metrics != "none" ? 1 : 0
+  
   name = "${terraform.workspace == "live" ? "live" : "dev"}/datadog-agent-service"
 }
 
