@@ -4,21 +4,21 @@ resource "aws_iam_role" "iam_for_lambda" {
     "/^-+|-+$/",
     "",
   )
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow"
-    }
-  ]
-}
-EOF
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 
+}
+
+data "aws_iam_policy_document" "assume_role_policy" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
 }
 
 resource "aws_iam_role_policy" "lambda_policy" {
@@ -49,7 +49,34 @@ data "aws_iam_policy_document" "read_datadog_api_key" {
       "secretsmanager:GetSecretValue"
     ]
     resources = [
-      data.aws_secretsmanager_secret.datadog_api_key.arn,
+      tostring(try(data.aws_secretsmanager_secret.datadog_api_key[0].arn, "")),
     ]
   }
 }
+
+/// Only create policy if using OpenTelemetry Collector, as it will need permissions to read the log subscription ARN from SSM Parameter Store
+
+data "aws_ssm_parameter" "otel_datadog_log_subscription_arn" {
+  count = var.enable_otel_collector ? 1 : 0
+  
+  name = var.otel_datadog_log_subscription_arn_ssm_parameter_name
+}
+
+data "aws_iam_policy_document" "otel_collector_policy_document" {
+  count = var.enable_otel_collector ? 1 : 0
+
+  statement {
+    effect = "Allow"
+
+    actions = ["sts:AssumeRole"]
+    resources = [data.aws_ssm_parameter.otel_datadog_log_subscription_arn[0].value]
+  }
+}
+
+resource "aws_iam_role_policy" "otel_collector_policy" {
+  count = var.enable_otel_collector ? 1 : 0
+  role = aws_iam_role.iam_for_lambda.id
+  name = "otel_collector_policy"
+  policy = data.aws_iam_policy_document.otel_collector_policy_document[0].json
+}
+
