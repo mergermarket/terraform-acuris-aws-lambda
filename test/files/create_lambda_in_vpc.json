@@ -1,40 +1,45 @@
 [
   {
-    "address": "module.lambda.aws_cloudwatch_log_group.lambda_loggroup",
-    "module_address": "module.lambda",
-    "mode": "managed",
-    "type": "aws_cloudwatch_log_group",
-    "name": "lambda_loggroup",
-    "provider_name": "registry.terraform.io/hashicorp/aws",
+    "address": "module.lambda.aws_cloudwatch_log_group.lambda_loggroup[0]",
     "change": {
-      "actions": ["create"],
-      "before": null,
+      "actions": [
+        "create"
+      ],
       "after": {
         "kms_key_id": null,
         "name": "/aws/lambda/check_lambda_function",
+        "region": "eu-west-1",
         "retention_in_days": 7,
         "skip_destroy": false,
         "tags": null
       },
+      "after_sensitive": {
+        "tags_all": {}
+      },
       "after_unknown": {
         "arn": true,
+        "deletion_protection_enabled": true,
         "id": true,
         "log_group_class": true,
         "name_prefix": true,
         "tags_all": true
-      }
-    }
+      },
+      "before": null,
+      "before_sensitive": false
+    },
+    "index": 0,
+    "mode": "managed",
+    "module_address": "module.lambda",
+    "name": "lambda_loggroup",
+    "provider_name": "registry.terraform.io/hashicorp/aws",
+    "type": "aws_cloudwatch_log_group"
   },
   {
     "address": "module.lambda.aws_iam_role.iam_for_lambda",
-    "module_address": "module.lambda",
-    "mode": "managed",
-    "type": "aws_iam_role",
-    "name": "iam_for_lambda",
-    "provider_name": "registry.terraform.io/hashicorp/aws",
     "change": {
-      "actions": ["create"],
-      "before": null,
+      "actions": [
+        "create"
+      ],
       "after": {
         "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"lambda.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
         "description": null,
@@ -45,6 +50,11 @@
         "permissions_boundary": null,
         "tags": null
       },
+      "after_sensitive": {
+        "inline_policy": [],
+        "managed_policy_arns": [],
+        "tags_all": {}
+      },
       "after_unknown": {
         "arn": true,
         "create_date": true,
@@ -54,65 +64,80 @@
         "name": true,
         "tags_all": true,
         "unique_id": true
-      }
-    }
+      },
+      "before": null,
+      "before_sensitive": false
+    },
+    "mode": "managed",
+    "module_address": "module.lambda",
+    "name": "iam_for_lambda",
+    "provider_name": "registry.terraform.io/hashicorp/aws",
+    "type": "aws_iam_role"
   },
   {
     "address": "module.lambda.aws_iam_role_policy.lambda_policy",
-    "module_address": "module.lambda",
-    "mode": "managed",
-    "type": "aws_iam_role_policy",
-    "name": "lambda_policy",
-    "provider_name": "registry.terraform.io/hashicorp/aws",
     "change": {
-      "actions": ["create"],
-      "before": null,
+      "actions": [
+        "create"
+      ],
       "after": {
         "name": "policy",
         "policy": "{\"Statement\":[{\"Action\":[\"logs:CreateLogGroup\",\"logs:CreateLogStream\",\"logs:PutLogEvents\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:logs:*:*:*\"}]}"
       },
+      "after_sensitive": {},
       "after_unknown": {
         "id": true,
         "name_prefix": true,
         "role": true
-      }
-    }
+      },
+      "before": null,
+      "before_sensitive": false
+    },
+    "mode": "managed",
+    "module_address": "module.lambda",
+    "name": "lambda_policy",
+    "provider_name": "registry.terraform.io/hashicorp/aws",
+    "type": "aws_iam_role_policy"
   },
   {
     "address": "module.lambda.aws_iam_role_policy_attachment.vpc_permissions[0]",
-    "module_address": "module.lambda",
-    "mode": "managed",
-    "type": "aws_iam_role_policy_attachment",
-    "name": "vpc_permissions",
-    "index": 0,
-    "provider_name": "registry.terraform.io/hashicorp/aws",
     "change": {
-      "actions": ["create"],
-      "before": null,
+      "actions": [
+        "create"
+      ],
       "after": {
         "policy_arn": "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
       },
+      "after_sensitive": {},
       "after_unknown": {
         "id": true,
         "role": true
-      }
-    }
+      },
+      "before": null,
+      "before_sensitive": false
+    },
+    "index": 0,
+    "mode": "managed",
+    "module_address": "module.lambda",
+    "name": "vpc_permissions",
+    "provider_name": "registry.terraform.io/hashicorp/aws",
+    "type": "aws_iam_role_policy_attachment"
   },
   {
     "address": "module.lambda.aws_lambda_function.lambda_function",
-    "module_address": "module.lambda",
-    "mode": "managed",
-    "type": "aws_lambda_function",
-    "name": "lambda_function",
-    "provider_name": "registry.terraform.io/hashicorp/aws",
     "change": {
-      "actions": ["create"],
-      "before": null,
+      "actions": [
+        "create"
+      ],
       "after": {
-        "architectures": ["x86_64"],
+        "architectures": [
+          "x86_64"
+        ],
+        "capacity_provider_config": [],
         "code_signing_config_arn": null,
         "dead_letter_config": [],
         "description": null,
+        "durable_config": [],
         "environment": [],
         "file_system_config": [],
         "filename": null,
@@ -125,6 +150,8 @@
         "memory_size": 128,
         "package_type": "Zip",
         "publish": false,
+        "publish_to": null,
+        "region": "eu-west-1",
         "replace_security_groups_on_destroy": null,
         "replacement_security_group_ids": null,
         "reserved_concurrent_executions": -1,
@@ -134,22 +161,71 @@
         "s3_object_version": null,
         "skip_destroy": false,
         "snap_start": [],
+        "source_kms_key_arn": null,
         "tags": null,
+        "tenancy_config": [],
         "timeout": 3,
         "timeouts": null,
+        "tracing_config": [
+          {
+            "mode": "PassThrough"
+          }
+        ],
         "vpc_config": [
           {
             "ipv6_allowed_for_dual_stack": false,
-            "security_group_ids": ["4"],
-            "subnet_ids": ["1", "2", "3"]
+            "security_group_ids": [
+              "4"
+            ],
+            "subnet_ids": [
+              "1",
+              "2",
+              "3"
+            ]
+          }
+        ]
+      },
+      "after_sensitive": {
+        "architectures": [
+          false
+        ],
+        "capacity_provider_config": [],
+        "dead_letter_config": [],
+        "durable_config": [],
+        "environment": [],
+        "ephemeral_storage": [],
+        "file_system_config": [],
+        "image_config": [],
+        "layers": [],
+        "logging_config": [],
+        "snap_start": [],
+        "tags_all": {},
+        "tenancy_config": [],
+        "tracing_config": [
+          {}
+        ],
+        "vpc_config": [
+          {
+            "security_group_ids": [
+              false
+            ],
+            "subnet_ids": [
+              false,
+              false,
+              false
+            ]
           }
         ]
       },
       "after_unknown": {
-        "architectures": [false],
+        "architectures": [
+          false
+        ],
         "arn": true,
+        "capacity_provider_config": [],
         "code_sha256": true,
         "dead_letter_config": [],
+        "durable_config": [],
         "environment": [],
         "ephemeral_storage": true,
         "file_system_config": [],
@@ -161,6 +237,7 @@
         "logging_config": true,
         "qualified_arn": true,
         "qualified_invoke_arn": true,
+        "response_streaming_invoke_arn": true,
         "role": true,
         "signing_job_arn": true,
         "signing_profile_version_arn": true,
@@ -168,16 +245,32 @@
         "source_code_hash": true,
         "source_code_size": true,
         "tags_all": true,
-        "tracing_config": true,
+        "tenancy_config": [],
+        "tracing_config": [
+          {}
+        ],
         "version": true,
         "vpc_config": [
           {
-            "security_group_ids": [false],
-            "subnet_ids": [false, false, false],
+            "security_group_ids": [
+              false
+            ],
+            "subnet_ids": [
+              false,
+              false,
+              false
+            ],
             "vpc_id": true
           }
         ]
-      }
-    }
+      },
+      "before": null,
+      "before_sensitive": false
+    },
+    "mode": "managed",
+    "module_address": "module.lambda",
+    "name": "lambda_function",
+    "provider_name": "registry.terraform.io/hashicorp/aws",
+    "type": "aws_lambda_function"
   }
 ]

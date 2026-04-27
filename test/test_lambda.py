@@ -9,12 +9,14 @@ cwd = os.getcwd()
 class TestCreateTaskdef(unittest.TestCase):
 
     def setUp(self):
-        check_call(['terraform', 'get', 'test/infra'])
-        check_call(['terraform', 'init', 'test/infra'])
+        self._infra_dir = 'test/infra'
+        check_call(['terraform', '-chdir=test/infra', 'get'])
+        check_call(['terraform', '-chdir=test/infra', 'init'])
 
     def get_output_json(self):
         return json.loads(check_output([
             'terraform',
+            f'-chdir={self._infra_dir}',
             'show',
             '-json',
             'plan.out'
@@ -43,10 +45,10 @@ class TestCreateTaskdef(unittest.TestCase):
         # Given When
         check_call([
             'terraform',
+            '-chdir=test/infra',
             'plan',
             '-out=plan.out',
             '-no-color',
-            'test/infra'
         ])
 
         resource_changes = self.get_resource_changes()
@@ -58,12 +60,15 @@ class TestCreateTaskdef(unittest.TestCase):
 
     def test_all_resources_to_be_created_for_container_lambda(self):
         # Given When
+        self._infra_dir = 'test/infra_container'
+        check_call(['terraform', '-chdir=test/infra_container', 'get'])
+        check_call(['terraform', '-chdir=test/infra_container', 'init'])
         check_call([
             'terraform',
+            '-chdir=test/infra_container',
             'plan',
             '-out=plan.out',
             '-no-color',
-            'test/infra_container'
         ])
 
         resource_changes = self.get_resource_changes()
@@ -78,12 +83,12 @@ class TestCreateTaskdef(unittest.TestCase):
         # Given When
         check_call([
             'terraform',
+            '-chdir=test/infra',
             'plan',
             '-out=plan.out',
             '-var', 'subnet_ids=[1,2,3]',
             '-var', 'security_group_ids=[4]',
             '-no-color',
-            'test/infra'
         ])
 
         resource_changes = self.get_resource_changes()
@@ -97,11 +102,11 @@ class TestCreateTaskdef(unittest.TestCase):
         # Given When
         check_call([
             'terraform',
+            '-chdir=test/infra',
             'plan',
             '-out=plan.out',
             '-var', 'reserved_concurrent_executions=3',
             '-no-color',
-            'test/infra'
         ])
 
         resource_changes = self.get_resource_changes()
@@ -117,11 +122,11 @@ class TestCreateTaskdef(unittest.TestCase):
         # Given When
         check_call([
             'terraform',
+            '-chdir=test/infra',
             'plan',
             '-out=plan.out',
             '-var', 'tags={"component":"test-component","env":"test"}',
             '-no-color',
-            'test/infra'
         ])
 
         resource_changes = self.get_resource_changes()
@@ -138,11 +143,11 @@ class TestCreateTaskdef(unittest.TestCase):
         # Given When
         check_call([
             'terraform',
+            '-chdir=test/infra',
             'plan',
             '-out=plan.out',
             '-var', 'layers=["arn:aws:lambda:eu-west-1:aws:r1"]',
             '-no-color',
-            'test/infra'
         ])
 
         resource_changes = self.get_resource_changes()

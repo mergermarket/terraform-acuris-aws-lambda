@@ -2,3 +2,5 @@
 .cache
 __pycache__
 plan.out
+test/infra
+test/infra_container

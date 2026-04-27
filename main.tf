@@ -24,12 +24,14 @@ locals {
   } : {}
   otel_collector_env = var.enable_otel_collector ? {
     OPENTELEMETRY_EXTENSION_LOG_LEVEL = var.otel_collector_layer_extension_log_level
-    AWS_ACCOUNT_ID = data.aws_caller_identity.current.account_id
+    AWS_ACCOUNT_ID = data.aws_caller_identity.current[0].account_id
   } : {}
 }
 
 data "aws_region" "current" {}
-data "aws_caller_identity" "current" {}
+data "aws_caller_identity" "current" {
+  count = var.enable_otel_collector ? 1 : 0
+}
 
 data "aws_security_group" "default" {
   count  = var.use_default_security_group == true ? 1 : 0
