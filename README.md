@@ -28,6 +28,7 @@ This module will deploy a Lambda function. It supports both Zip and Image deploy
 | `vpc_id` | string | no | `null` | The VPC ID in which the Lambda runs. |
 | `tracing_mode` | string | no | `"PassThrough"` | Tracing mode for the Lambda. Valid options: `PassThrough` and `Active`. |
 | `dead_letter_queue_arn` | string | no | `""` | The ARN of the dead letter queue for the Lambda function. |
+| `disable_logging` | bool | no | `false` | Disable logging cloudwatch / otel.|
 
 ### Zip deployment variables
 
