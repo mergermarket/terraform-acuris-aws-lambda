@@ -13,16 +13,16 @@ locals {
   }
   datadog_install_extension = var.datadog_metrics != "none"
   datadog_install_lambdajs  = var.datadog_metrics == "lambdajs"
-  datadog_extension_layer   = local.datadog_install_extension ? [local.datadog_extension_layers_available[var.architectures[0]]] : []
-  datadog_extension_env = local.datadog_install_extension ? {
+  datadog_extension_layer   = local.datadog_install_extension && !var.disable_logging ? [local.datadog_extension_layers_available[var.architectures[0]]] : []
+  datadog_extension_env = local.datadog_install_extension && !var.disable_logging ? {
     DD_SITE               = "datadoghq.com"
     DD_API_KEY_SECRET_ARN = tostring(try(data.aws_secretsmanager_secret.datadog_api_key[0].arn, ""))
   } : {}
-  datadog_lambdajs_layer = local.datadog_install_lambdajs ? [local.datadog_lambdajs_layers_available[var.runtime]] : []
-  datadog_lambdajs_env = local.datadog_install_lambdajs ? {
+  datadog_lambdajs_layer = local.datadog_install_lambdajs && !var.disable_logging ? [local.datadog_lambdajs_layers_available[var.runtime]] : []
+  datadog_lambdajs_env = local.datadog_install_lambdajs && !var.disable_logging ? {
     DD_LAMBDA_HANDLER = var.handler
   } : {}
-  otel_collector_env = var.enable_otel_collector ? {
+  otel_collector_env = var.enable_otel_collector && !var.disable_logging ? {
     OPENTELEMETRY_EXTENSION_LOG_LEVEL = var.otel_collector_layer_extension_log_level
     AWS_ACCOUNT_ID = data.aws_caller_identity.current[0].account_id
   } : {}
@@ -30,7 +30,7 @@ locals {
 
 data "aws_region" "current" {}
 data "aws_caller_identity" "current" {
-  count = var.enable_otel_collector ? 1 : 0
+  count = var.enable_otel_collector && !var.disable_logging ? 1 : 0
 }
 
 data "aws_security_group" "default" {
@@ -40,13 +40,13 @@ data "aws_security_group" "default" {
 }
 
 data "aws_secretsmanager_secret" "datadog_api_key" {
-  count = var.datadog_metrics != "none" ? 1 : 0
+  count = var.datadog_metrics != "none" && !var.disable_logging ? 1 : 0
   
   name = "${terraform.workspace == "live" ? "live" : "dev"}/datadog-agent-service"
 }
 
 data "aws_lambda_layer_version" "otel_collector" {
-  count = var.enable_otel_collector ? 1 : 0
+  count = var.enable_otel_collector && !var.disable_logging ? 1 : 0
 
   layer_name = "otel-collector-layer-${var.architectures[0]}"
   compatible_architecture = var.architectures[0]
@@ -65,7 +65,7 @@ resource "aws_lambda_function" "lambda_function" {
   reserved_concurrent_executions = var.reserved_concurrent_executions
   tags                           = var.tags
   package_type                   = var.image_uri != null ? "Image" : "Zip"
-  layers                         = concat(var.layers, local.datadog_lambdajs_layer, local.datadog_extension_layer, var.enable_otel_collector ? [data.aws_lambda_layer_version.otel_collector[0].arn] : [])
+  layers                         = concat(var.layers, local.datadog_lambdajs_layer, local.datadog_extension_layer, var.enable_otel_collector && !var.disable_logging ? [data.aws_lambda_layer_version.otel_collector[0].arn] : [])
   architectures                  = var.architectures
 
   dynamic "image_config" {
@@ -103,7 +103,7 @@ resource "aws_lambda_function" "lambda_function" {
 
 resource "aws_cloudwatch_log_group" "lambda_loggroup" {
   /// Only create log group if not using OpenTelemetry Collector, as it will create the log group with a subscription filter itself
-  count = var.enable_otel_collector ? 0 : 1
+  count = var.enable_otel_collector && !var.disable_logging ? 0 : 1
 
   name              = "/aws/lambda/${var.function_name}"
   retention_in_days = 7
@@ -112,7 +112,7 @@ resource "aws_cloudwatch_log_group" "lambda_loggroup" {
 
 resource "aws_cloudwatch_log_subscription_filter" "kinesis_log_stream" {
   /// Only create subscription filter if not using OpenTelemetry Collector, as it will create the subscription filter itself
-  count           = var.datadog_log_subscription_arn != "" && !var.enable_otel_collector ? 1 : 0
+  count           = var.datadog_log_subscription_arn != "" && !var.enable_otel_collector && !var.disable_logging ? 1 : 0
 
   name            = "kinesis-log-stream-${var.function_name}"
   destination_arn = var.datadog_log_subscription_arn
