@@ -103,7 +103,7 @@ resource "aws_lambda_function" "lambda_function" {
 
 resource "aws_cloudwatch_log_group" "lambda_loggroup" {
   /// Only create log group if not using OpenTelemetry Collector, as it will create the log group with a subscription filter itself
-  count = var.enable_otel_collector && !var.disable_logging ? 0 : 1
+  count = var.enable_otel_collector || var.disable_logging ? 0 : 1
 
   name              = "/aws/lambda/${var.function_name}"
   retention_in_days = 7
