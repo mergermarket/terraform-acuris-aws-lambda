@@ -183,7 +183,7 @@ variable "datadog_metrics" {
 variable "enable_otel_collector" {
   type = bool
   description = "Whether to add the OpenTelemetry Collector Lambda layer and related environment variables"
-  default = true
+  default = false
 }
 
 variable "otel_collector_layer_extension_log_level" {
