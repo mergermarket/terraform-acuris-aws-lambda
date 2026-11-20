@@ -171,7 +171,7 @@ variable "datadog_extension_layer_version" {
 variable "datadog_lambdajs_layer_version" {
   type = number
   description = "Version number of DataDog NodeJS lambda layer to add"
-  default = 142
+  default = 144
 }
 
 variable "datadog_metrics" {
