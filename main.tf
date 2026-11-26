@@ -10,6 +10,7 @@ locals {
     "nodejs20.x" = "arn:aws:lambda:${data.aws_region.current.region}:464622532012:layer:Datadog-Node20-x:${var.datadog_lambdajs_layer_version}"
     "nodejs22.x" = "arn:aws:lambda:${data.aws_region.current.region}:464622532012:layer:Datadog-Node22-x:${var.datadog_lambdajs_layer_version}"
     "nodejs24.x" = "arn:aws:lambda:${data.aws_region.current.region}:464622532012:layer:Datadog-Node24-x:${var.datadog_lambdajs_layer_version}"
+    "nodejs26.x" = "arn:aws:lambda:${data.aws_region.current.region}:464622532012:layer:Datadog-Node26-x:${var.datadog_lambdajs_layer_version}"
   }
   datadog_install_extension = var.datadog_metrics != "none"
   datadog_install_lambdajs  = var.datadog_metrics == "lambdajs"
