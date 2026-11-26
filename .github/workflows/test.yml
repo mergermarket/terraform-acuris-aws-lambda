@@ -9,7 +9,7 @@ on:
 jobs:
   publish:
     name: Test
-    runs-on: ubuntu-latest
+    runs-on: eus2-azure-github-runner-linux-x64-ubuntu-latest
     if: ${{ github.ref == 'refs/heads/master' }}
     steps:
       - uses: actions/checkout@v2
